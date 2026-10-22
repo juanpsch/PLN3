@@ -60,7 +60,7 @@ class PineconeSearcher:
         key = self.api_key or os.getenv("PINECONE_API_KEY")
         if not key:
             raise RuntimeError("Falta PINECONE_API_KEY en entorno o parámetro api_key.")
-        self.pc = Pinecone(api_key=key)
+        self.pc = Pinecone(api_key=key, proxy_url=os.getenv("HTTPS_PROXY"))
         self.model = SentenceTransformer(self.model_name)
         dim = self.model.get_sentence_embedding_dimension()
         ensure_pinecone_index(self.pc, self.index_name, dim, cloud=self.cloud, region=self.region)
